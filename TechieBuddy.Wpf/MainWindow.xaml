@@ -1,0 +1,69 @@
+﻿<Window x:Class="TechieBuddy.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TechieBuddy.Wpf"
+        xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+         xmlns:wpf="clr-namespace:TechieBuddy.Wpf.Extensions"
+         xmlns:conv="clr-namespace:TechieBuddy.Wpf.Converters"
+        mc:Ignorable="d"
+        Title="Techie Buddy AI" Height="650" Width="415" 
+           Icon="Images/sm_icon.png"
+         ResizeMode="CanResizeWithGrip"
+        WindowStyle="SingleBorderWindow"
+        Topmost="True">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <conv:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid Background="#f8f8f8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- First Row -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/bg.jpg" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" />
+            </Grid.Background>
+            <Image Grid.Column="0" Source="Images/lg1.png" Height="115" VerticalAlignment="Center" Margin="25,0,0,0"/>
+            <Button Grid.Column="2" VerticalAlignment="Bottom" Margin="10" Padding="3" Background="#ffd700"  BorderBrush="Black" BorderThickness="1">
+                <TextBlock Text="Powered by zzzcode.ai" FontWeight="Bold"/>
+            </Button>
+        </Grid>
+
+        <Label Grid.Row="1" HorizontalAlignment="Left" Content="Software, tool or programming language" />
+
+        <TextBox Grid.Row="2" Text="{Binding Software, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="SoftwareInput" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10" Margin="3"/>
+
+        <Label Grid.Row="3" Content="Question" HorizontalAlignment="Left" />
+
+        <TextBox  Grid.Row="4" Text="{Binding Question, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" Name="QuestionInput" MinLines="5"  MaxLines="9" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10" Margin="3"/>
+
+        <Button Grid.Row="5" Content="Ask" Height="35"  Margin="3" Command="{Binding AskCommand}"  Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+        <ProgressBar Grid.Row="5" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10"/>
+
+        <WebBrowser Grid.Row="6" Margin="10" Name="OutputViewer" wpf:WebBrowserHelper.BindableSource="{Binding Response}"/>
+
+        <!--<mdxam:MarkdownScrollViewer Grid.Row="6" Name="OutputViewer" Margin="10" 
+                                    Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}" 
+                                    Markdown="{Binding Response, Mode=OneWay}" xml:space="preserve"/>-->
+
+
+    </Grid>
+</Window>
